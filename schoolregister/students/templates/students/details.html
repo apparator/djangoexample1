@@ -1,13 +1,33 @@
 {% extends 'theme/base.html' %}
+
+{% block student_listing_is_active %}active{% endblock %}
+
 {% block subheader %}Student details{% endblock %}
+
 {% block pagecontent %}
-    {{ block.super }}
     <h2>Details on student {{ student.id }}</h2> 
-    <li>
-        <li>{{ student.name }}</li>
-        <li>{{ student.email }}</li>
-        <li>{{ student.study }}</li>
-    </ul>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Study</th>
+                <th>Number of passed exams</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ student.name }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.study }}</td>
+                <td id="passed_exams_cell">{{ student.passed_exams }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a id="increase_passed_exams_button" class="btn btn-default" href="#" role="button">Increase passed exams</a>
+
 {% endblock %}
 
 
