@@ -7,9 +7,9 @@ from students.models import Student
 def student_listing(request):
     students = Student.objects.all()
     context = {'students': students}
-    return render(request, 'students/index.html', context)
+    return render(request, 'students/student_listing.html', context)
 
 def student_details(request, student_id):
     student = Student.objects.get(pk=student_id)
     context = {'student': student}
-    return render(request, 'students/details.html', context)
+    return render(request, 'students/student_details.html', context)
