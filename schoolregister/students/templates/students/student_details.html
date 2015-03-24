@@ -1,13 +1,35 @@
 {% extends 'theme/base.html' %}
 {% block subheader %}Student details{% endblock %}
 {% block pagecontent %}
-    {{ block.super }}
+
     <h2>Details on student {{ student.id }}</h2> 
-    <ul>
-        <li>{{ student.name }}</li>
-        <li>{{ student.email }}</li>
-        <li>{{ student.study }}</li>
-    </ul>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Study</th>
+                <th>Number of passed exams</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ student.name }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.study }}</td>
+                <td id="passed_exams_cell">{{ student.passed_exams }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a id="increase_passed_exams_button" class="btn btn-default" href="#" role="button">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
+        Increase number of exams passed
+    </a>
+
+    <input type="hidden" id="passed_exams_url" value="/students/{{ student.id }}/increase_passed_exams">
+
 {% endblock %}
 
 
