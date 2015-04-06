@@ -61,12 +61,23 @@ https://github.com/apparator/djangoexample1/blob/lecture12/schoolregister/userac
 
 We find a suited form at 'getbootstrap.com', and that is what we add next.
 
-This form has some extra styling, which we will put in a separate styling used only for useraccount views. We add this in the folder `useraccounts/static/useraccount/css` and we call the file ´style.css´:
+This form has some extra styling, which we will put in a separate styling used only for useraccount views. We add this in the folder `useraccounts/static/useraccount/css` and we call the file `style.css`:
 
 https://github.com/apparator/djangoexample1/blob/lecture12/schoolregister/useraccounts/static/useraccounts/css/style.css
 
+### Actual login
 
+Now we are ready to update the view so that it actually logs a user in. Everything inside `if request.method == 'POST':` in `views.py` is for this purpose:
+ 
+https://github.com/apparator/djangoexample1/blob/lecture12/schoolregister/useraccounts/views.py
 
+Now, if we have a user we can actually see that the header is showing my username. See in the top right corner. In this line:
+
+https://github.com/apparator/djangoexample1/blob/lecture12/schoolregister/theme/templates/theme/base.html#L24
+
+we are using `{% if user.is_anonymous %}` to show a different menu for logged in and anonymous users. 
+
+In your assignement you need to show different things for anonymous and authenticated users, so pay attention to how this is done.
 
 
 
