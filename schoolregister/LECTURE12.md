@@ -79,9 +79,25 @@ we are using `{% if user.is_anonymous %}` to show a different menu for logged in
 
 In your assignement you need to show different things for anonymous and authenticated users, so pay attention to how this is done.
 
+Now we should make it possible to log out. How do we do that? 
 
+We add a new url as shown in this file:
 
+https://github.com/apparator/djangoexample1/blob/lecture12/schoolregister/useraccounts/urls.py
 
+Then we need a view for this, which we have made here:
+
+https://github.com/apparator/djangoexample1/blob/lecture12/schoolregister/useraccounts/views.py
+
+Last, we need to add a logout option for users that are authenticated. This is a possible way to do it in our `useraccounts/views.py`:
+
+```python
+def user_logout(request):
+    logout(request)
+    return redirect('frontpage')
+```
+
+Now we can log in and out and see that the header menu on the right side changes.
 
 
 
