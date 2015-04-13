@@ -2,33 +2,106 @@
 {% block subheader %}Student details{% endblock %}
 {% block pagecontent %}
 
-    <h2>Details on student {{ student.id }}</h2> 
+    <div class="row">
+        <div class="col-sm-12">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Study</th>
-                <th>Number of passed exams</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ student.name }}</td>
-                <td>{{ student.email }}</td>
-                <td>{{ student.study }}</td>
-                <td id="passed_exams_cell">{{ student.passed_exams }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <h2>Details on student {{ student.id }}</h2> 
 
-    <a id="increase_passed_exams_button" class="btn btn-default" href="#" role="button">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
-        Increase number of exams passed
-    </a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Study</th>
+                        <th>Number of passed exams</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.email }}</td>
+                        <td>{{ student.study }}</td>
+                        <td id="passed_exams_cell">{{ student.passed_exams }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a id="increase_passed_exams_button" class="btn btn-default" href="#" role="button">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
+                Increase number of exams passed
+            </a>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Lagrede notater</h2> 
+            <table class="table">
+                {% for note in notes %}
+                <tr>
+                    <td>{{ note }}</td>
+                    <td>
+                        <span id="id-points-{{ note.id }}">{{ note.points }}</span>
+                    </td>
+                    <td>
+                        <a href="" class="points_link" data-noteid="{{ note.id }}">+poeng</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+
+            <nav>
+                <ul class="pager">
+                    {% if notes.has_previous %}
+                    <li class="previous">
+                        <a href="?page={{ notes.previous_page_number }}">
+                            <span aria-hidden="true">&larr;</span> Forrige
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <span class="current">
+                            Side {{ notes.number }} av {{ notes.paginator.num_pages }}
+                        </span>
+                    </li>
+                    {% if notes.has_next %}
+                        <li class="next">
+                            <a href="?page={{ notes.next_page_number }}">
+                                Neste <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>                    
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Nytt notat</h3> 
+            <form class="form-horizontal" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="col-sm-12">
+                       <textarea class="form-control" rows="3" name="new_note"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-default">Lagre nytt notat</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
 
     <input type="hidden" id="passed_exams_url" value="/students/{{ student.id }}/increase_passed_exams">
+    <input type="hidden" id="add_points_url" value="/students/{{ student.id }}/add_points">
 
 {% endblock %}
 

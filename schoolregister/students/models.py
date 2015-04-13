@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Student(models.Model):
@@ -9,3 +10,16 @@ class Student(models.Model):
 
     def __unicode__(self):
         return u'%s (%s)' % (self.name, self.email)
+
+class StudentNote(models.Model):
+    student = models.ForeignKey(Student, related_name='notes')
+    note = models.TextField()
+    points = models.PositiveIntegerField(default=0)
+    created_datetime = models.DateTimeField()
+    created_by = models.ForeignKey(User, related_name='created_notes')
+
+    def __unicode__(self):
+        return u'%s' % self.note
+
+    class Meta:
+        ordering = ['-id']
