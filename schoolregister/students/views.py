@@ -15,7 +15,15 @@ def student_listing(request):
     return render(request, 'students/student_listing.html', context)
 
 def student_details(request, student_id):
-    # this view renders student details and all notes saved to the student.
+    """ 
+    The student details view. Renders all saved info on students, 
+    including notes created for the student.
+
+    This view is used for both GET and POST requests. A check is performed for this, 
+    and if the request method is POST we create a new note.
+    """
+
+    # Get the student the user wants to see details for
     student = Student.objects.get(pk=student_id)
 
     # if a new note is added, we receive the actual text in the request POST dictionary.
@@ -36,19 +44,40 @@ def student_details(request, student_id):
         # We do it like this:
         new_note.save()
 
+    # fetch all notes saved for this user
     notes = student.notes.all()
+
+    # code for handling pagination
+    # first, if the url has an argument like "page=N" (where N is number), 
+    # get it and store it in the variable "page_number"
     page_number = request.GET.get('page')
+    # initialize the django Paginator object, and set number of 
+    # items per page to 5
     paginator = Paginator(notes, 5)
+    # there are a few troublesome situations we need to handle, so we use
+    # Pythons "try-except"
     try:
+        # We try to get the page based on incoming "page"
+        # Because we do this within a "try", any error that should happen
+        # will be "caught" and code within "except" will be run instead
         notes = paginator.page(page_number)
     except PageNotAnInteger:
+        # if the page is not an integer, e.g "page=helloworld" in the url
+        # we just return page 1
         notes = paginator.page(1)
     except EmptyPage:
+        # if the page does not have any items, we send the user to the last 
+        # page instead
         notes = paginator.page(paginator.num_pages)
 
+    # now we create a dictionary with data we want to merge together
+    # with a template using the "render"-function below
     context = {
         'student': student,
         'notes': notes}
+    # now we use the "render"-function which takes html code and some data,
+    # puts it together to html-code, 
+    # and we return this to the requesting user (to his browser)
     return render(request, 'students/student_details.html', context)
 
 def student_increase_passed_exams(request, student_id):
