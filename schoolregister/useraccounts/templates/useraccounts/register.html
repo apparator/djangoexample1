@@ -1,0 +1,30 @@
+{% extends 'useraccounts/base.html' %}
+{% block container %} 
+<h1>Register new User</h1>
+{% if user_saved_successfully %}
+    <div class="alert alert-success">User successfully created</div>
+{% endif %} 
+<form method="POST" action="{% url 'user_register' %}">{% csrf_token %}
+      <div class="form-group">
+        <label for="inputFirstName">First Name</label>
+        <input type="text" class="form-control" name="firstname" id="inputFirstName" placeholder="Enter First Name">
+      </div>
+      <div class="form-group">
+        <label for="inputLastName">Last Name</label>
+        <input type="text" class="form-control" name="lastname" id="inputLastName" placeholder="Enter Last Name">
+      </div>
+        <div class="form-group">
+            <label for="inputUsername">Username</label>
+            <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="inputEmail">Email address</label>
+            <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
+        </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+{% endblock %}
