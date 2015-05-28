@@ -27,10 +27,15 @@ def user_register(request):
     context = {}
     if request.method == "POST":
         user = User()
+        user.username = request.POST.get('username')
+        # Here we should make shure there are noe user in the database 
+        # with this username allready. We can check this with
+        # if User.objects.filter(username=user.username).exists()
+        # and if this is true, we should provide an error message to the
+        # user that is trying to register
+        user.email = request.POST.get('email')
         user.first_name = request.POST.get('firstname')
         user.last_name = request.POST.get('lastname')
-        user.username = request.POST.get('username')
-        user.email = request.POST.get('email')
         user.set_password(request.POST.get('password'))
         user.save()
         context['user_saved_successfully'] = True
